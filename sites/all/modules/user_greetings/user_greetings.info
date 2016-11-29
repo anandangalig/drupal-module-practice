@@ -1,0 +1,6 @@
+name = User Greetings
+description = Greets users based on their permission level.
+package = Practice Modules
+core = 7.x
+files[] = user_greetings.module
+stylesheets[all][] = styles.css

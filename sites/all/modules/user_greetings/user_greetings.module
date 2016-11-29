@@ -1,0 +1,130 @@
+<?php
+  function user_greetings_menu() {
+    $items = array();
+    $items['hello'] = array(
+      'title' => "Welcome Back!",
+      'page callback' => 'welcome_back_admin',
+      'access callback' => TRUE,
+      'type' => MENU_CALLBACK,
+    );
+    $items['hello_user'] = array(
+      'title' => "Welcome Back!",
+      'page callback' => 'welcome_back_user',
+      'access callback' => TRUE,
+      'type' => MENU_CALLBACK,
+    );
+    $items['bye'] = array(
+      'title' => "See ya later!",
+      'page callback' => 'see_ya',
+      'access callback' => TRUE,
+      'type' => MENU_CALLBACK,
+    );
+
+    return $items;
+  }
+
+  function welcome_back_admin() {
+    return 'Welcome Back Admin!';
+  }
+
+  function welcome_back_user() {
+    return 'Welcome Back User!';
+  }
+
+  function see_ya() {
+    return 'Later, gator!';
+  }
+
+  function user_greetings_user_login(&$edit, $account) {
+    if(in_array("administrator", $account->roles)) {
+      $_GET['destination'] = 'hello';
+    } elseif (in_array("authenticated user", $account->roles)) {
+      $_GET['destination'] = 'hello_user';
+
+    }
+  }
+
+  function user_greetings_user_logout() {
+    $_GET['destination'] = 'bye';
+  }
+
+
+
+
+  // // For debugging try this:
+  // function greetings_user_login(&$edit, $account) {
+  //   echo '<pre>';
+  //   var_dump($account);
+  //   echo '</pre>';
+  //   exit;
+  //
+  //   $_GET['destination'] = 'hello';
+  // }
+
+  // object(stdClass)#70 (18) {
+  //   ["uid"]=>
+  //   string(1) "1"
+  //   ["name"]=>
+  //   string(9) "practice1"
+  //   ["pass"]=>
+  //   string(55) "$S$DMFvzpFvSsItlgC8mQvCpEhzTVLskwH8ObhvSEyxZi7t.V5EYWhx"
+  //   ["mail"]=>
+  //   string(23) "rebeccazarsky@gmail.com"
+  //   ["theme"]=>
+  //   string(0) ""
+  //   ["signature"]=>
+  //   string(0) ""
+  //   ["signature_format"]=>
+  //   NULL
+  //   ["created"]=>
+  //   string(10) "1480432401"
+  //   ["access"]=>
+  //   string(10) "1480453584"
+  //   ["login"]=>
+  //   int(1480453897)
+  //   ["status"]=>
+  //   string(1) "1"
+  //   ["timezone"]=>
+  //   string(16) "America/New_York"
+  //   ["language"]=>
+  //   string(0) ""
+  //   ["picture"]=>
+  //   NULL
+  //   ["init"]=>
+  //   string(23) "rebeccazarsky@gmail.com"
+  //   ["data"]=>
+  //   bool(false)
+  //   ["roles"]=>
+  //   array(2) {
+  //     [2]=>
+  //     string(18) "authenticated user"
+  //     [3]=>
+  //     string(13) "administrator"
+  //   }
+  //   ["rdf_mapping"]=>
+  //   array(3) {
+  //     ["rdftype"]=>
+  //     array(1) {
+  //       [0]=>
+  //       string(16) "sioc:UserAccount"
+  //     }
+  //     ["name"]=>
+  //     array(1) {
+  //       ["predicates"]=>
+  //       array(1) {
+  //         [0]=>
+  //         string(9) "foaf:name"
+  //       }
+  //     }
+  //     ["homepage"]=>
+  //     array(2) {
+  //       ["predicates"]=>
+  //       array(1) {
+  //         [0]=>
+  //         string(9) "foaf:page"
+  //       }
+  //       ["type"]=>
+  //       string(3) "rel"
+  //     }
+  //   }
+  // }

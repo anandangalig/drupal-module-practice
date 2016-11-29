@@ -1,0 +1,19 @@
+<?php
+function hello_user_menu() {
+  $items = array();
+  $items['confirm'] = array(
+    'title' => "Congratulations!",
+    'page callback' => 'greet_new_user',
+    'access callback' => TRUE,
+    'type' => MENU_CALLBACK,
+  );
+  return $items;
+}
+
+function greet_new_user() {
+  return 'Welcome to the the Practice1 network! Your account has been created.';
+}
+
+function hello_user_user_insert(&$edit, $account, $category) {
+  $_GET['destination'] = 'confirm';
+}

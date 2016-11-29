@@ -1,0 +1,6 @@
+name = Hello User
+description = Directs to a confirmation page upon creating a user account.
+package = Practice Modules
+core = 7.x
+files[] = hello_user.module
+stylesheets[all][] = styles.css

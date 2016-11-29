@@ -1,0 +1,6 @@
+name = Comment Buddy
+description = Creates messages to the user when they create, edit or delete a comment.
+package = Practice Modules
+core = 7.x
+files[] = comment_buddy.module
+stylesheets[all][] = styles.css

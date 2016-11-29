@@ -1,0 +1,6 @@
+name = Cards
+description = Holiday greetings for friends.
+package = Practice Modules
+core = 7.x
+files[] = cards.module
+stylesheets[all][] = styles.css

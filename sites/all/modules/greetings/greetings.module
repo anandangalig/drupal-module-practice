@@ -1,0 +1,33 @@
+<?php
+  function greetings_menu() {
+    $items = array();
+    $items['hello'] = array(
+      'title' => "Welcome Back!",
+      'page callback' => 'welcome_back',
+      'access callback' => TRUE,
+      'type' => MENU_CALLBACK,
+    );
+    $items['bye'] = array(
+      'title' => "See ya later!",
+      'page callback' => 'see_ya',
+      'access callback' => TRUE,
+      'type' => MENU_CALLBACK,
+    );
+
+    return $items;
+  }
+
+  function welcome_back() {
+    return 'Welcome Back friend!';
+  }
+
+  function see_ya() {
+    return 'Later, gator!';
+  }
+
+  function greetings_user_login() {
+    $_GET['destination'] = 'hello';
+  }
+  function greetings_user_logout() {
+    $_GET['destination'] = 'bye';
+  }

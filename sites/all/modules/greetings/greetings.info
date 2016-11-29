@@ -1,0 +1,6 @@
+name = Greetings
+description = Hello/Goodbye.
+package = Practice Modules
+core = 7.x
+files[] = greetings.module
+stylesheets[all][] = styles.css

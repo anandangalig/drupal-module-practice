@@ -1,0 +1,6 @@
+name = Pet
+description = A page about our favorite pet.
+package = Practice Modules
+core = 7.x
+files[] = pet.module
+stylesheets[all][] = styles.css

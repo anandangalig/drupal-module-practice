@@ -1,0 +1,16 @@
+<?php
+  function pet_menu() {
+    $items = array();
+    $items['favorite_pet'] = array(
+      'title' => "Nurnackle's Memorial",
+      'page callback' => 'talk_about_nurnackle',
+      'access callback' => TRUE,
+      'type' => MENU_NORMAL_ITEM,
+    );
+    return $items;
+  }
+
+  function talk_about_nurnackle() {
+    return '<a href="http://nurnackle.net/" target="_blank"><img id="cat" src="/sites/all/modules/pet/nurnackle.jpeg"></a>
+  <p>Bombay turkish angora so bobcat yet british shorthair, so scottish fold birman savannah. Lion russian blue bombay havana brown thai yet himalayan so burmese. Sphynx jaguar. Thai. Mouser ragdoll himalayan, jaguar so abyssinian lynx yet kitty. Mouser cougar birman for manx for himalayan turkish angora, but malkin. Lion tom but tom tomcat for malkin.Ocelot tiger yet panther for bobcat yet balinese himalayan, maine coon. Grimalkin cornish rex so siberian. American bobtail. Siberian burmese, lion so american shorthair or munchkin. Himalayan ragdoll tom so thai. Siberian. Birman bombay munchkin lion yet abyssinian yet lynx. Burmese. Thai balinese so lion for tiger. Savannah bengal and tomcat, donskoy.Norwegian forest panther thai and lynx. Cornish rex lion cornish rex munchkin so malkin. Abyssinian tiger. Norwegian forest puma and norwegian forest and grimalkin for munchkin and himalayan tomcat. Lion bombay but american bobtail or malkin kitten but siamese cougar. Ocelot tiger for tiger tabby, and russian blue. Siamese ocelot.Grimalkin birman. Grimalkin. Savannah scottish fold and siberian. Cornish rex donskoy but bombay, scottish fold ragdoll. Havana brown persian but maine coon yet abyssinian yet manx. Turkish angora.</p>';
+  }

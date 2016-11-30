@@ -1,0 +1,51 @@
+<?php
+
+  function sum_menu() {
+    $items['sum'] = array(
+      'title' => 'Calculate Sum', //shows up on menu panel
+      'page callback' => 'drupal_get_form', //special drupal function for FORMS
+      'page arguments' => array('sum_bob'), //the ACTUAL callback function that runs ( passed in as argument via drupal_get_form)
+      'access callback' => TRUE,
+      'type' => MENU_NORMAL_ITEM, //creates the entry on the menu panel
+    );
+    $items['sum_success_page'] = array(
+      'title' => 'Success',
+      'page callback' => 'sum_success',
+      'access callback' => TRUE,
+      'type' => MENU_CALLBACK, //page is hidden from the menu panel
+    );
+    return $items;
+  }
+
+  function sum_bob() {
+    $form['left_number'] = array( //left_number becomes the name='' in html
+      '#title' => 'Left Number',
+      '#type' => 'textfield',
+      '#description' => t('Please enter the first number'), //t() Translates strings to given language
+    );
+
+    $form['right_number'] = array(
+      '#title' => 'Right Number',
+      '#type' => 'textfield',
+      '#description' => t('Please enter the second number to add'),
+    );
+
+    $form['submit'] = array(
+      '#type' => 'submit',
+      '#value' => 'Calculate Sum', //prints on the button
+    );
+    return $form;
+  }
+
+  function sum_bob_submit($form, &$form_state) { //form_state array holds user input data + id's for the html to render.
+    $first_number = $form_state['values']['left_number'];
+    $second_number = $form_state['values']['right_number'];
+    $sum = $first_number + $second_number;
+    $_SESSION ['sum_output'] = $sum; //special variable of PHP (storing it in cookies)
+    $form_state['redirect'] = 'sum_success_page'; // similar to $_GET['destination']= 'sum_success_page'
+  }
+
+  function sum_success() {
+    $answer = $_SESSION['sum_output'];
+    return 'You calculated a sum! The answer is:' . " " . $answer;
+  }

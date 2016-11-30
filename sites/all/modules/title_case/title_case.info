@@ -1,0 +1,5 @@
+name = Title Case Converter
+description = Converts text input into a title case.
+package = Practice Modules
+core = 7.x
+files[] = title_case.module

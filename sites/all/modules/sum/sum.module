@@ -22,12 +22,16 @@
       '#title' => 'Left Number',
       '#type' => 'textfield',
       '#description' => t('Please enter the first number'), //t() Translates strings to given language
+      '#element_validate' => array('element_validate_number', 'element_validate_range', 'element_validate_even'), // gets evaluated in order of listing, e.i. only the prior errors are caught and displayed! 
+      '#required' => TRUE,
     );
 
     $form['right_number'] = array(
       '#title' => 'Right Number',
       '#type' => 'textfield',
       '#description' => t('Please enter the second number to add'),
+      '#element_validate' => array('element_validate_number', 'element_validate_range', 'element_validate_even'),
+      '#required' => TRUE,
     );
 
     $form['submit'] = array(
@@ -36,6 +40,19 @@
     );
     return $form;
   }
+
+  function element_validate_range($element) { //custom element validation for -50<xyz>50, then called in the form array
+    if ($element['#value'] > 50 || $element['#value'] < -50) {
+        form_error($element, t('Number must be less than 50 or greater than -50.'));  //form_error fails the validation and the page reloads; First argument is the form field element which caused the error. The second argument is the message to display.
+    }
+  }
+
+  function element_validate_even($element) { //custom element validation for even numbers, then called in the form array
+    if ($element['#value'] % 2 != 0) { //modulus = remainder after x/y
+        form_error($element, t('Number must be even.'));
+    }
+  }
+
 
   function sum_bob_submit($form, &$form_state) { //form_state array holds user input data + id's for the html to render.
     $first_number = $form_state['values']['left_number'];

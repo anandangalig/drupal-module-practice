@@ -21,7 +21,7 @@
     );
     return $items;
   }
-
+//=====================INPUT FORM: =========================================
   function form_input() {
     $form['queen_horizontal_location'] = array(
       '#title' => "Queen's Horizontal Location",
@@ -58,73 +58,8 @@
     return $form;
   }
 
-  function element_validate_letter($element) {
-    $acceptable_letters = array('a', 'b', 'c', 'd', 'e', 'f', 'g', 'h');
-// solution 3 works
-  //   if(!in_array($element['#value'], $acceptable_letters)) {
-  //     form_error($element, t('<h1>Enter a valid location: see image: </h1><img src="/sites/all/modules/queen_attack/chess_board.png">'));
-  //   }
-
-// solution 1
-  //   for ($i = 0; $i < count($acceptable_letters); $i++) {
-  //     // echo '<pre>';
-  //     // var_dump('INPUT VALUE ', $element['#value']);
-  //     // echo '</pre>';
-  //     // echo '<pre>';
-  //     // var_dump('FOR LOOP ', $acceptable_letters[$i]);
-  //     // echo '</pre>';
-  //     // exit;
-  //     if ($element['#value'] === $acceptable_letters[$i]) {
-  //       form_error($element, t('Good.'));
-  //     }
-  //     if ($element['#value'] !== $acceptable_letters[$i]) {
-  //       form_error($element, t('Bad.'));
-  //     }
-  //   }
-  // }
-
-// solution 2
-    // foreach($acceptable_letters as $letter) {
-    //   if($element['#value'] !== $letter) {
-    //     form_error($element, t('Horizontal location is not valid. See image for reference.'));
-    //   }
-    //   echo '<pre>';
-    //   var_dump($element['#value']);
-    //   echo '</pre>';
-    //   echo '<pre>';
-    //   var_dump($letter);
-    //   echo '</pre>';
-    //   exit;
-    // }
-// solution 4 also works
-
-    $throw_error = true;
-
-    foreach($acceptable_letters as $letter) {
-      if($element['#value'] == $letter) {
-          $throw_error = false;
-        }
-    }
-
-    if ($throw_error) {
-      form_error($element, t('Horizontal location is not valid. See image for reference.'));
-    }
-  }
-
-
-  function element_validate_range_chess($element) {
-    if($element['#value'] > 8 || $element['#value'] < 1) {
-        form_error($element, t('Vertical location must be within the range of 1-8.'));
-    }
-  }
-  function queen_attack_form_validate($form, &$form_state) {
-    if (($form_state['values']['queen_horizontal_location'] == $form_state['values']['target_horizontal_location']) && ($form_state['values']['queen_vertical_location'] == $form_state['values']['target_vertical_location'])) {
-        form_set_error('queen_horizontal_location', 'You cannot have more than 1 chess piece on a single square!');
-    }
-  }
-
-
   function form_input_submit($form, &$form_state) {
+    $queen_vertical = $form_state['values']['queen_vertical_location'];
     $queen_horizontal = $form_state['values']['queen_horizontal_location'];
     if ($queen_horizontal == 'a') {
       $queen_horizontal = 1;
@@ -144,8 +79,7 @@
       $queen_horizontal = 8;
     }
 
-    $queen_vertical = $form_state['values']['queen_vertical_location'];
-
+    $target_vertical = $form_state['values']['target_vertical_location'];
     $target_horizontal = $form_state['values']['target_horizontal_location'];
     if($target_horizontal == 'a') {
       $target_horizontal = 1;
@@ -165,8 +99,7 @@
       $target_horizontal = 8;
     }
 
-    $target_vertical = $form_state['values']['target_vertical_location'];
-
+    //============================THE ENGINE: ===========================
     if($queen_horizontal == $target_horizontal || $queen_vertical == $target_vertical || (abs($queen_horizontal - $target_horizontal) == abs($queen_vertical - $target_vertical))) {
       $form_state['redirect'] = 'queen_attack_success_page';
     }else{
@@ -174,9 +107,78 @@
     }
   }
 
+  //========================RETURN MESSAGES FOR REDIRECT PAGES: ===============
   function hit() {
     return 'The Queen hits the Target!';
   }
   function miss() {
     return 'The Queen misses the Target by a mile. Booooo....';
+  }
+
+//========================ELEMENT_VALIDATIONS: ==============================
+function element_validate_range_chess($element) {
+  if($element['#value'] > 8 || $element['#value'] < 1) {
+    form_error($element, t('Vertical location must be within the range of 1-8.'));
+  }
+}
+function queen_attack_form_validate($form, &$form_state) {
+  if (($form_state['values']['queen_horizontal_location'] == $form_state['values']['target_horizontal_location']) && ($form_state['values']['queen_vertical_location'] == $form_state['values']['target_vertical_location'])) {
+    form_set_error('queen_horizontal_location', 'You cannot have more than 1 chess piece on a single square!');
+  }
+}
+
+  function element_validate_letter($element) {
+    $acceptable_letters = array('a', 'b', 'c', 'd', 'e', 'f', 'g', 'h');
+
+//solution 3 WORKS
+    if(!in_array($element['#value'], $acceptable_letters)) {
+      form_error($element, t('<h1>Enter a valid location: see image: </h1><img src="/sites/all/modules/queen_attack/chess_board.png">'));
+    }
+
+  //solution 4 ALSO WORKS
+  // $throw_error = true;
+  //
+  // foreach($acceptable_letters as $letter) {
+  //   if($element['#value'] == $letter) {
+  //     $throw_error = false;
+  //   }
+  // }
+  //
+  // if ($throw_error) {
+  //   form_error($element, t('Horizontal location is not valid. See image for reference.'));
+  // }
+
+//NOTE: with For loops and If statements, BE CAREFUL. With !== 'a' & 'a' will not satisfy condition, therefore jump to the next index and keep going until hit !==
+
+// solution 1 NOT WORKING
+//     for ($i = 0; $i < count($acceptable_letters); $i++) {
+//       // echo '<pre>';
+//       // var_dump('INPUT VALUE ', $element['#value']);
+//       // echo '</pre>';
+//       // echo '<pre>';
+//       // var_dump('FOR LOOP ', $acceptable_letters[$i]);
+//       // echo '</pre>';
+//       // exit;
+//       if ($element['#value'] === $acceptable_letters[$i]) {
+//         form_error($element, t('Good.'));
+//       }
+//       if ($element['#value'] !== $acceptable_letters[$i]) {
+//         form_error($element, t('Bad.'));
+//       }
+//     }
+//
+//
+// solution 2 NOT WORKING
+//     foreach($acceptable_letters as $letter) {
+//       if($element['#value'] !== $letter) {
+//         form_error($element, t('Horizontal location is not valid. See image for reference.'));
+//       }
+//       echo '<pre>';
+//       var_dump($element['#value']);
+//       echo '</pre>';
+//       echo '<pre>';
+//       var_dump($letter);
+//       echo '</pre>';
+//       exit;
+//     }
   }

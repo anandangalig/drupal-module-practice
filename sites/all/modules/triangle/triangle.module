@@ -1,0 +1,71 @@
+<?php
+
+function triangle_menu() {
+    $items['triangle'] = array(
+      'title' => 'Triangle Describer',
+      'page callback' => 'drupal_get_form',
+      'page arguments' => array('triangle_form'),
+      'access callback' => TRUE,
+    );
+    $items['triangle_type_page'] = array(
+    'title' => 'Triangle Type',
+    'page callback' => 'triangle_type_result',
+    'access callback' => TRUE,
+    'type' => MENU_CALLBACK,
+  );
+  return $items;
+}
+
+function triangle_form() {
+    $form['user_input_one'] = array(
+      '#title' => 'Side One',
+      '#type' => 'textfield',
+      '#description' => t("Enter the first side of a triangle:"),
+      '#element_validate' => array('element_validate_number', 'element_validate_integer_positive'),
+      '#required' => TRUE,
+    );
+    $form['user_input_two'] = array(
+      '#title' => 'Side Two',
+      '#type' => 'textfield',
+      '#description' => t("Enter the second side of a triangle:"),
+      '#element_validate' => array('element_validate_number', 'element_validate_integer_positive'),
+      '#required' => TRUE,
+
+    );
+    $form['user_input_three'] = array(
+      '#title' => 'Side Three',
+      '#type' => 'textfield',
+      '#description' => t("Enter the third side of a triangle:"),
+      '#element_validate' => array('element_validate_number', 'element_validate_integer_positive'),
+      '#required' => TRUE,
+    );
+
+    $form['submit'] = array(
+      '#type' => 'submit',
+      '#value' => 'Submit',
+    );
+    return $form;
+}
+
+
+function triangle_form_submit($form, &$form_state) {
+  $measurements = array();
+  $user_number_one = $form_state['values']['user_input_one'];
+  $user_number_two = $form_state['values']['user_input_two'];
+  $user_number_three = $form_state['values']['user_input_three'];
+  $user_number_array = [$user_number_one, $user_number_two, $user_number_three];
+  echo '<pre>';
+  var_dump($user_number_array);
+  echo '</pre>';
+  $user_number_array = ksort($user_number_array);
+  echo '<pre>';
+  var_dump($user_number_array);
+  echo '</pre>';
+  echo '<pre>';
+  var_dump($user_number_array[0]);
+  echo '</pre>';
+  exit;
+
+  // foreach ($user_number_array as $side) {
+  // }
+}

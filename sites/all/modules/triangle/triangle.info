@@ -1,0 +1,5 @@
+name = Triangle Describer
+description = Converts user input into specific types of triangles.
+package = Practice Modules
+core = 7.x
+files[] = title_case.module

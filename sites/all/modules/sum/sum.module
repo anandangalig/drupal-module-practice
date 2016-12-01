@@ -22,7 +22,7 @@
       '#title' => 'Left Number',
       '#type' => 'textfield',
       '#description' => t('Please enter the first number'), //t() Translates strings to given language
-      '#element_validate' => array('element_validate_number', 'element_validate_range', 'element_validate_even'), // gets evaluated in order of listing, e.i. only the prior errors are caught and displayed! 
+      '#element_validate' => array('element_validate_number', 'element_validate_range', 'element_validate_even'), // gets evaluated in order of listing, e.i. only the prior errors are caught and displayed!
       '#required' => TRUE,
     );
 

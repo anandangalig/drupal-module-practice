@@ -1,0 +1,135 @@
+<?php
+  function queen_attack_menu() {
+    $items['queen_attack'] = array(
+      'title' => 'Queen Attack',
+      'page callback' => 'drupal_get_form',
+      'page arguments' => array('form_input'),
+      'access callback' => TRUE,
+      'type' => MENU_NORMAL_ITEM,
+    );
+    $items['queen_attack_success_page'] = array(
+      'title' => 'Successful Hit',
+      'page callback' => 'hit',
+      'access callback' => TRUE,
+      'type' => MENU_CALLBACK,
+    );
+    $items['queen_attack_fail_page'] = array(
+      'title' => 'Booo, she cannot hit that target!',
+      'page callback' => 'miss',
+      'access callback' => TRUE,
+      'type' => MENU_CALLBACK,
+    );
+    return $items;
+  }
+
+  function form_input() {
+    $form['queen_horizontal_location'] = array(
+      '#title' => "Queen's Horizontal Location",
+      '#type' => 'textfield',
+      '#description' => t('Please enter the horizontal location of the Queen'),
+      // '#element_validate' => array('element_validate_letter'),
+      '#required' => TRUE,
+    );
+    $form['queen_vertical_location'] = array(
+      '#title' => "Queen's Vertical Location",
+      '#type' => 'textfield',
+      '#description' => t('Please enter the vertical location of the Queen'),
+      '#element_validate' => array('element_validate_number', 'element_validate_integer', 'element_validate_range_chess'),
+      '#required' => TRUE,
+    );
+    $form['target_horizontal_location'] = array(
+      '#title' => "Target's Horizontal Location",
+      '#type' => 'textfield',
+      '#description' => t('Please enter the horizontal location of the Target'),
+      // '#element_validate' => array('element_validate_letter'),
+      '#required' => TRUE,
+    );
+    $form['target_vertical_location'] = array(
+      '#title' => "Target's Vertical Location",
+      '#type' => 'textfield',
+      '#description' => t('Please enter the vertical location of the Target'),
+      '#element_validate' => array('element_validate_number', 'element_validate_integer', 'element_validate_range_chess'),
+      '#required' => TRUE,
+    );
+    $form['submit'] = array(
+      '#type' => 'submit',
+      '#value' => 'Hit or Miss?',
+    );
+    return $form;
+  }
+
+  // function element_validate_letter($element) {
+  //   $acceptable_letters = array("a", 'b', 'c', 'd', 'e', 'f', 'g', 'h');
+  //   foreach($acceptable_letters as $letter) {
+  //     if($element['#value'] !== $letter) {
+  //       form_error($element, t('Horizontal location is not valid. See image for reference.'));
+  //     }
+  //     // echo '<pre>';
+  //     // var_dump($element['#value']);
+  //     // echo '</pre>';
+  //     // exit;
+  //   }
+  // }
+  function element_validate_range_chess($element) {
+    if($element['#value'] > 8 || $element['#value'] < 1) {
+        form_error($element, t('Vertical location must be within the range of 1-8.'));
+    }
+  }
+
+
+  function form_input_submit($form, &$form_state) {
+    $queen_horizontal = $form_state['values']['queen_horizontal_location'];
+    if ($queen_horizontal == 'a') {
+      $queen_horizontal = 1;
+    } elseif ($queen_horizontal == 'b') {
+      $queen_horizontal = 2;
+    } elseif ($queen_horizontal == 'c') {
+      $queen_horizontal = 3;
+    } elseif ($queen_horizontal == 'd') {
+      $queen_horizontal = 4;
+    } elseif ($queen_horizontal == 'e') {
+      $queen_horizontal = 5;
+    } elseif ($queen_horizontal == 'f') {
+      $queen_horizontal = 6;
+    } elseif ($queen_horizontal == 'g') {
+      $queen_horizontal = 7;
+    } elseif ($queen_horizontal == 'h') {
+      $queen_horizontal = 8;
+    }
+
+    $queen_vertical = $form_state['values']['queen_vertical_location'];
+
+    $target_horizontal = $form_state['values']['target_horizontal_location'];
+    if($target_horizontal == 'a') {
+      $target_horizontal = 1;
+    }elseif($target_horizontal == 'b') {
+      $target_horizontal = 2;
+    }elseif($target_horizontal == 'c') {
+      $target_horizontal = 3;
+    }elseif($target_horizontal == 'd') {
+      $target_horizontal = 4;
+    }elseif($target_horizontal == 'e') {
+      $target_horizontal = 5;
+    }elseif($target_horizontal == 'f') {
+      $target_horizontal = 6;
+    }elseif($target_horizontal == 'g') {
+      $target_horizontal = 7;
+    }elseif($target_horizontal == 'h') {
+      $target_horizontal = 8;
+    }
+
+    $target_vertical = $form_state['values']['target_vertical_location'];
+
+    if($queen_horizontal == $target_horizontal || $queen_vertical == $target_vertical || (($queen_horizontal - $target_horizontal) == ($queen_vertical - $target_vertical))) {
+      $form_state['redirect'] = 'hit';
+    }else{
+      $form_state['redirect'] = 'miss';
+    }
+  }
+
+  function hit() {
+    return 'The Queen hits the Target!';
+  }
+  function miss() {
+    return 'The Queen misses the Target by a mile. Booooo....';
+  }

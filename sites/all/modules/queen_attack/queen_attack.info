@@ -1,0 +1,6 @@
+name = Queen Attack
+description = Evaluates if Queen can reach a certain cell to attack.
+package = Practice Modules
+core = 7.x
+files[] = queen_attack.module
+stylesheets[all][] = styles.css
